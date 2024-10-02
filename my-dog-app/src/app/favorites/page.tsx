@@ -1,13 +1,18 @@
 'use client';
 
-import { useSelector } from 'react-redux';
-import { Grid, Select, MenuItem, Typography, Box } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Grid, Select, MenuItem, Typography, Box, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { toggleFavorite } from '../store/favoriteSlice';
+import { useRouter } from 'next/navigation';
+import '../globals.css'
 
 export default function Favorites() {
   const favorites = useSelector((state: any) => state.favorites.favorites);
   const [filter, setFilter] = useState('');
   const [breeds, setBreeds] = useState<string[]>([]);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const uniqueBreeds = Array.from(new Set(favorites.map((img: string) => img.split('/')[4])));
@@ -18,46 +23,66 @@ export default function Favorites() {
     ? favorites.filter((img: string) => img.includes(filter))
     : favorites;
 
+  const handleRemoveFavorites = (favorites: any, img: any) => {
+    const updatedFavorites = favorites.filter((img: string) => !favorites.includes(img));
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    dispatch(toggleFavorite(img));
+  }
+
+
   return (
     <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" gutterBottom align="center">
-        Your Favorite Dog Images
-      </Typography>
-      
-      <Select
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        fullWidth
-        sx={{ mb: 4 }}
-      >
-        <MenuItem value="">All Breeds</MenuItem>
-        {breeds.map((breed) => (
-          <MenuItem key={breed} value={breed}>
-            {breed.charAt(0).toUpperCase() + breed.slice(1)}
-          </MenuItem>
-        ))}
-      </Select>
+      {favorites.length === 0 ? (
+        <div className='flex justify-center items-center flex-col h-screen gap-5'>
+          <Typography variant="h4" gutterBottom align="center">
+            No favorite dog images found.
+          </Typography>
+          <Button variant={'contained'} onClick={() => router.push('/')}>Choose your favorite DOG</Button>
+        </div>
+      ) : (
+        <>
+          <Typography variant="h4" gutterBottom align="center">
+            Your Favorite Dog Images
+          </Typography>
+
+          <Select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            fullWidth
+            sx={{ mb: 4 }}
+          >
+            <MenuItem value="">All Breeds</MenuItem>
+            {breeds.map((breed) => (
+              <MenuItem key={breed} value={breed}>
+                {breed.charAt(0).toUpperCase() + breed.slice(1)}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      )}
+
 
       <Grid container spacing={2}>
         {filteredFavorites.map((image: string) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={image}>
-            <Box 
-              sx={{ 
-                borderRadius: 2, 
-                overflow: 'hidden', 
-                boxShadow: 2, 
-                position: 'relative' 
+            <Box
+              sx={{
+                borderRadius: 2,
+                overflow: 'hidden',
+                boxShadow: 2,
+                position: 'relative'
               }}
             >
-              <img 
-                src={image} 
-                alt="Favorite Dog" 
-                style={{ 
-                  width: '100%', 
-                  height: 'auto', 
-                  display: 'block' 
-                }} 
+              <img
+                src={image}
+                alt="Favorite Dog"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block'
+                }}
               />
+              <Button onClick={() => handleRemoveFavorites(favorites, image)}>Remove Favorite</Button>
             </Box>
           </Grid>
         ))}

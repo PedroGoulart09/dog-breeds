@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 
+
+
 .loader {
   width: fit-content;
   font-weight: bold;
