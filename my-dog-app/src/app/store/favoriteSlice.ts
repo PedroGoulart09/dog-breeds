@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  favorites: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('favorites') || '[]') : [],
+  favorites: JSON.parse(localStorage.getItem('favorites') || '[]') ?? [],
 };
 
 const favoritesSlice = createSlice({
@@ -16,9 +16,9 @@ const favoritesSlice = createSlice({
       } else {
         state.favorites.push(imageUrl);
       }
-      if (typeof window !== 'undefined') {
+      
         localStorage.setItem('favorites', JSON.stringify(state.favorites));
-      }
+      
     },
   },
 });
