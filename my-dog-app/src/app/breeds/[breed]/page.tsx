@@ -52,6 +52,7 @@ export default function BreedPictures() {
                         width={500}
                         height={500}
                         style={{ width: '100%', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)' }}
+                        onClick={() => handleFavorite(image)}
                     />
                     <Button
                         variant={favorites.includes(image) ? 'contained' : 'outlined'}

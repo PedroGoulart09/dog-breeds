@@ -34,6 +34,12 @@ export default function Favorites() {
         ? favorites.filter((img: string) => img.includes(filter))
         : favorites;
 
+    const handleRemoveFavorites = (favorites: string[], img: string) => {
+        const updatedFavorites = favorites.filter((url: string) => url !== img);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+        dispatch(setFavorites(updatedFavorites));
+    }
+
     return (
         <Box sx={{ padding: 4 }}>
             {favorites.length === 0 ? (
@@ -88,6 +94,13 @@ export default function Favorites() {
                                 height={500}
                             />
                         </Box>
+                            <Button
+                                variant="contained"
+                                onClick={() => handleRemoveFavorites(favorites, image)}
+                                fullWidth
+                                style={{ marginTop: '10px' }}
+                            >Remove
+                            </Button>
                     </Grid>
                 ))}
             </Grid>
