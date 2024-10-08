@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../globals.css';
 import { toggleFavorite } from '@/app/store/favoriteSlice';

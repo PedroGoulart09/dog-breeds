@@ -1,21 +1,32 @@
 'use client';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Select, MenuItem, Typography, Box, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import '../globals.css'
+import '../globals.css';
 import type { RootState } from '../interfaces';
 import Image from 'next/image';
+import { setFavorites } from '@/app/store/favoriteSlice';
 
 export default function Favorites() {
+    const dispatch = useDispatch();
     const favorites = useSelector((state: RootState) => state.favorites.favorites);
     const [filter, setFilter] = useState('');
     const [breeds, setBreeds] = useState<string[]>([]);
     const router = useRouter();
 
     useEffect(() => {
-        const uniqueBreeds = Array.from(new Set(favorites.map((img: string) => img.split('/')[4])))
+        if (typeof window !== 'undefined') {
+            const storedFavorites = localStorage.getItem('favorites');
+            if (storedFavorites) {
+                dispatch(setFavorites(JSON.parse(storedFavorites)));
+            }
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        const uniqueBreeds = Array.from(new Set(favorites.map((img: string) => img.split('/')[4])));
         setBreeds(uniqueBreeds);
     }, [favorites]);
 
@@ -53,7 +64,6 @@ export default function Favorites() {
                     </Select>
                 </>
             )}
-
 
             <Grid container spacing={2}>
                 {filteredFavorites.map((image: string) => (

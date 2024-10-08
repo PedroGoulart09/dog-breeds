@@ -12,11 +12,11 @@ export default function Home() {
             .then((response) => response.json())
             .then((data) => setBreeds(Object.keys(data.message)))
             .catch((error) => console.error('Error:', error));
-    }, [breeds]);
+    }, []);
 
     useEffect(() => {
         fetchImage()
-    }, []);
+    }, [fetchImage]);
 
 
     if (breeds.length === 0) {
