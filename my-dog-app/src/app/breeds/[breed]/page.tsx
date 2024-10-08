@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Button, Grid, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,14 +14,19 @@ export default function BreedPictures() {
   const favorites = useSelector((state: any) => state.favorites.favorites);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (breed) {
-      fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
-        .then((response) => response.json())
-        .then((data) => setImage(data.message));
-    }
+
+  const fetchImage = useCallback(() => {
+    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+      .then((response) => response.json())
+      .then((data) => setImage(data.message))
+      .catch((error) => console.error('Error:', error));
   }, [breed]);
-  
+
+  useEffect(() => {
+    fetchImage();
+  }, [fetchImage]);
+
+
   const handleFavorite = (imageUrl: string) => {
     dispatch(toggleFavorite(imageUrl));
   };
