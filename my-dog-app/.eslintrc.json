@@ -1,48 +1,88 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
   "extends": [
-    "next/core-web-vitals",
     "next",
-    "next/typescript",
-    "eslint:recommended",
     "plugin:react/recommended",
+    "airbnb-typescript",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "react",
-    "@typescript-eslint"
-  ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
-    "react/react-in-jsx-scope": "off", // Next.js não requer React no escopo
-    "react/prop-types": "off", // Não necessário com TypeScript
-    "@typescript-eslint/explicit-module-boundary-types": "off", // Opcional, dependendo do seu estilo
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
+    "prettier/prettier": "error",
+    "no-nested-ternary": "error",
+    "no-console": [
+      "error",
       {
-        "argsIgnorePattern": "^_"
+        "allow": [
+          "warn",
+          "info",
+          "error"
+        ]
       }
-    ], // Ignora variáveis não usadas que começam com _
-    "no-console": "warn", // Aviso para console.log
-    "semi": [
+    ],
+    "no-multiple-empty-lines": [
       "error",
-      "never"
-    ], // Sem ponto e vírgula
-    "quotes": [
+      {
+        "max": 1,
+        "maxEOF": 1,
+        "maxBOF": 0
+      }
+    ],
+    "import/no-duplicates": 2,
+    "import/named": "error",
+    "import/order": [
       "error",
-      "single"
-    ], // Aspas simples
-    "jsx-a11y/anchor-is-valid": "off" // Next.js lida com links de forma diferente
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": [
+          "Link"
+        ],
+        "specialLink": [
+          "to"
+        ],
+        "aspects": [
+          "invalidHref",
+          "preferButton"
+        ]
+      }
+    ],
+    "react/display-name": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "prefer-const": "error"
   }
 }
