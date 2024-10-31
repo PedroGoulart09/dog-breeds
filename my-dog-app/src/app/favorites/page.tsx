@@ -27,7 +27,8 @@ export default function Favorites() {
 
     useEffect(() => {
         const uniqueBreedsssss = Array.from(new Set(favorites.map((img: string) => img.split('/')[4])));
-        setBreeds(uniqueBreedsssss);
+            setBreeds(uniqueBreedsssss);
+        console.log(uniqueBreedddsssss)
     }, [favorites]);
 
 
