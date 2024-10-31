@@ -1,3 +1,48 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": [
+    "next/core-web-vitals",
+    "next",
+    "next/typescript",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off", // Next.js não requer React no escopo
+    "react/prop-types": "off", // Não necessário com TypeScript
+    "@typescript-eslint/explicit-module-boundary-types": "off", // Opcional, dependendo do seu estilo
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ], // Ignora variáveis não usadas que começam com _
+    "no-console": "warn", // Aviso para console.log
+    "semi": [
+      "error",
+      "never"
+    ], // Sem ponto e vírgula
+    "quotes": [
+      "error",
+      "single"
+    ], // Aspas simples
+    "jsx-a11y/anchor-is-valid": "off" // Next.js lida com links de forma diferente
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
